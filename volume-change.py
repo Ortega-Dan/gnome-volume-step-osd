@@ -34,14 +34,17 @@ vol_percentage=int(sum(vol_percentages)/len(vol_percentages)+0.5)
 increase = (vol_action == 'increase')
 if (increase):
     vol_percentage=max(0, (vol_percentage + vol_percent_change))
+    command = 'pactl set-sink-volume @DEFAULT_SINK@ +'+ vol_percent_change +'%'
 else:
     vol_percentage=max(0, (vol_percentage - vol_percent_change))
+    command = 'pactl set-sink-volume @DEFAULT_SINK@ -'+ vol_percent_change +'%'
+
 
 # Set the volume for both channels
-command = 'amixer -D pulse sset Master ' + str(vol_percentage) + '% > /dev/null'
+# command = 'amixer -D pulse sset Master ' + str(vol_percentage) + '% > /dev/null'
 
-if (increase):
-    command += ' && amixer -D pulse set Master unmute > /dev/null'
+# if (increase):
+#     command += ' && amixer -D pulse set Master unmute > /dev/null'
 
 # Apply volume
 call(command, shell=True)
@@ -58,9 +61,11 @@ elif vol_percentage < 30:
     logo += 'low'
 elif vol_percentage < 70:
     logo += 'medium'
-else:
+elif vol_percentage < 100:
     logo += 'high'
+else:
+    logo += 'overamplified'
 logo += '-symbolic'
 
 # Make the dbus method call
-interface.ShowOSD({"icon":logo, "level":vol_percentage/100})
+interface.ShowOSD({"icon":logo, "level":vol_percentage/150})
