@@ -34,20 +34,21 @@ vol_percentage=int(sum(vol_percentages)/len(vol_percentages)+0.5)
 increase = (vol_action == 'increase')
 if (increase):
     vol_percentage=max(0, (vol_percentage + vol_percent_change))
-    command = 'pactl set-sink-volume @DEFAULT_SINK@ +'+ vol_percent_change +'%'
+    command = 'pactl set-sink-volume @DEFAULT_SINK@ +'+ str(vol_percent_change) +'%'
 else:
     vol_percentage=max(0, (vol_percentage - vol_percent_change))
-    command = 'pactl set-sink-volume @DEFAULT_SINK@ -'+ vol_percent_change +'%'
+    command = 'pactl set-sink-volume @DEFAULT_SINK@ -'+ str(vol_percent_change) +'%'
 
 
 # Set the volume for both channels
 # command = 'amixer -D pulse sset Master ' + str(vol_percentage) + '% > /dev/null'
 
-# if (increase):
-#     command += ' && amixer -D pulse set Master unmute > /dev/null'
+if (increase):
+    command += ' && amixer -D pulse set Master unmute > /dev/null'
 
-# Apply volume
-call(command, shell=True)
+# Apply volume allowing overamplification while keeping the cap at 150%
+if (vol_percentage < 150):
+    call(command, shell=True)
 
 # If it's 0 then add mute flag (trigger sub-action, keyboard light for example)
 if vol_percentage == 0:
