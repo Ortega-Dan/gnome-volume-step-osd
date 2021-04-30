@@ -52,8 +52,8 @@ It's much easier to just use your own custom notification by using notify-send. 
 As a side note, the bash commands (amixer...) are what I use to adjust my volume and then reduce the stdout from that command to just the volume percentage level. You may need to alter the script slightly to fit your system.
 
 # Dan Notes
-I believe the best level change to resemble the regular Gnome functinality is 6 by 6
-e.g: 
-volume-change increase 6
-or
+I believe the best level change to resemble the regular Gnome functinality is 6 by 6\
+e.g:\
+volume-change increase 6\
+or\
 volume-change decrease 6
