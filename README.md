@@ -50,3 +50,10 @@ The problem with this approach is that it no longer triggers the nice volume not
 It's much easier to just use your own custom notification by using notify-send. However, in order to get GNOME's volume OSD to show up as instead of my own, less-appealing version of a volume notification, I make a dbus ShowOSD() method call to org.gnome.Shell with the proper icon and level values.
 
 As a side note, the bash commands (amixer...) are what I use to adjust my volume and then reduce the stdout from that command to just the volume percentage level. You may need to alter the script slightly to fit your system.
+
+# Dan Notes
+I believe the best level change to resemble the regular Gnome functinality is 6 by 6
+e.g: 
+volume-change increase 6
+or
+volume-change decrease 6
